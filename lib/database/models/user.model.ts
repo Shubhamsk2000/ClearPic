@@ -1,15 +1,15 @@
 import { Schema, model, models } from "mongoose";
 
 export interface IUser {
-  _id?: string; 
+  _id?: string;
   clerkId: string;
   email: string;
   username: string;
   photo: string;
-  firstName?: string;
-  lastName?: string;
-  planId?: number;         
-  creditBalance?: number;  
+  firstName: string;
+  lastName: string;
+  planId?: number;
+  creditBalance?: number;
 }
 
 
@@ -35,9 +35,11 @@ const UserSchema = new Schema({
   },
   firstName: {
     type: String,
+    required: true,
   },
   lastName: {
     type: String,
+    required: true,
   },
   planId: {
     type: Number,
