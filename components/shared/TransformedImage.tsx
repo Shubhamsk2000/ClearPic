@@ -1,19 +1,30 @@
+"use client";
+
 import Image from 'next/image'
 import React from 'react'
-import { CldImage } from 'next-cloudinary';
-import { dataUrl, debounce, getImageSize } from '@/lib/utils';
+import { CldImage, getCldImageUrl } from 'next-cloudinary';
+import { dataUrl, debounce, download, getImageSize } from '@/lib/utils';
 import { PlaceholderValue } from 'next/dist/shared/lib/get-img-props';
 
 const TransformedImage = ({ image, type, title, isTransforming, setIsTransforming, transformationConfig, hasDownload = false }: TransformedImageProps) => {
-    const downloadHandler = () => { }
+    const downloadHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+
+        download(getCldImageUrl({
+            width: image?.width,
+            height: image?.height,
+            src: image?.publicId,
+            ...transformationConfig
+        }), title)
+     }
     return (
         <div className='flex flex-col gap-4'>
             <div className="flex-between">
                 <h3 className="h3-bold text-dark-600">
                     Transformed
                 </h3>
-
-                {hasDownload && (
+            
+                {hasDownload && image?.publicId && transformationConfig && (
                     <button className="download-btn" onClick={downloadHandler}>
                         <Image
                             src="/assets/icons/download.svg"
@@ -45,7 +56,7 @@ const TransformedImage = ({ image, type, title, isTransforming, setIsTransformin
                                 if (setIsTransforming) {
                                     setIsTransforming(false);
                                 }
-                            }, 8000)
+                            }, 8000)()
                         }}
                         {...transformationConfig}
                     />
@@ -55,8 +66,9 @@ const TransformedImage = ({ image, type, title, isTransforming, setIsTransformin
                                 src="/assets/icons/spinner.svg"
                                 width={50}
                                 height={50}
-                                alt="Transforming"
+                                alt="Spinner"
                             />
+                            <p className='text-white/80'>Please wait...</p>
                         </div>
                     )}
                 </div>
