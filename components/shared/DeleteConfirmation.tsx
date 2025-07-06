@@ -16,10 +16,11 @@ import {
 import { deleteImage } from "@/lib/actions/image.actions";
 
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
-const DeleteConfirmation = ({ imageId }: { imageId: string }) => {
+export const DeleteConfirmation = ({ imageId }: { imageId: string }) => {
   const [isPending, startTransition] = useTransition();
-
+  const router = useRouter();
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild className="w-full rounded-full">
@@ -49,6 +50,7 @@ const DeleteConfirmation = ({ imageId }: { imageId: string }) => {
             onClick={() =>
               startTransition(async () => {
                 await deleteImage(imageId);
+                router.push('/')
               })
             }
           >
@@ -59,5 +61,3 @@ const DeleteConfirmation = ({ imageId }: { imageId: string }) => {
     </AlertDialog>
   );
 };
-
-export default DeleteConfirmation;

@@ -9,8 +9,8 @@ const Home = async ({ searchParams }: SearchParamProps) => {
   const resolvedParams = await searchParams;
   const page = Number(resolvedParams?.page) || 1;
   const searchQuery = (resolvedParams?.query as string) || '';
-  
-  const images = await getAllImages({ page, searchQuery});
+
+  const images = await getAllImages({ page, searchQuery });
 
 
   return (
@@ -25,12 +25,18 @@ const Home = async ({ searchParams }: SearchParamProps) => {
               <Link
                 key={link.route}
                 href={link.route}
-                className='flex-center flex-col gap-2'
+                className="flex-center flex-col gap-2 transition-all duration-200 ease-in-out hover:scale-105"
               >
-                <li className='flex-center rounded-full bg-white p-4 w-fit'>
-                  <Image src={link.icon} alt={link.label} width={24} height={24} />
+                <li className="flex-center rounded-full bg-white p-4 w-fit shadow-md hover:shadow-lg">
+                  <Image
+                    src={link.icon}
+                    alt={link.label}
+                    width={24}
+                    height={24}
+                    className="transition-transform duration-200 group-hover:rotate-6"
+                  />
                 </li>
-                <p className='p-14-medium text-center text-white'>{link.label}</p>
+                <p className="p-14-medium text-center text-white">{link.label}</p>
               </Link>
             ))
           }
@@ -38,10 +44,10 @@ const Home = async ({ searchParams }: SearchParamProps) => {
       </section>
       <section className="sm:mt-12">
         <Collection
-            hasSearch={true}
-            images={images?.data}
-            totalPages={images?.totalPages}
-            page={page}
+          hasSearch={true}
+          images={images?.data}
+          totalPages={images?.totalPages}
+          page={page}
         />
       </section>
 

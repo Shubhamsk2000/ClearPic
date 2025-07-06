@@ -65,7 +65,6 @@ export async function deleteImage(imageId: string) {
     try {
         await connectToDatabase();
         await Image.findByIdAndDelete(imageId);
-        redirect('/');
     } catch (error) {
         handleError(error);
     }
@@ -126,7 +125,7 @@ export async function getAllImages({ limit = 9,
         const images = await populateUser(Image.find(query)).sort({ updatedAt: -1 }).skip(skipAmount).limit(limit);
         const totalImages = await Image.find(query).countDocuments();
         const savedImage = await Image.find().countDocuments();
-        
+
         return {
             data: JSON.parse(JSON.stringify(images)),
             totalPages: Math.ceil(totalImages / limit),

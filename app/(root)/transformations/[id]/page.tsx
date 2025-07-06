@@ -4,7 +4,7 @@ import Header from "@/components/shared/Header";
 import TransformedImage from "@/components/shared/TransformedImage";
 import { getImageById } from "@/lib/actions/image.actions";
 import { getImageSize } from "@/lib/utils";
-import DeleteConfirmation from '@/components/shared/DeleteConfirmation';
+import { DeleteConfirmation } from '@/components/shared/DeleteConfirmation';
 
 const ImageDetails = async ({ params }: SearchParamProps) => {
   const { id } = await params;
