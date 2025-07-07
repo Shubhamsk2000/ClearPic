@@ -5,12 +5,23 @@ import TransformedImage from "@/components/shared/TransformedImage";
 import { getImageById } from "@/lib/actions/image.actions";
 import { getImageSize } from "@/lib/utils";
 import { DeleteConfirmation } from '@/components/shared/DeleteConfirmation';
+import mongoose from "mongoose";
+import { notFound } from 'next/navigation';
+
 
 const ImageDetails = async ({ params }: SearchParamProps) => {
   const { id } = await params;
+
+  if(!mongoose.isValidObjectId(id)){
+    return notFound();
+  } 
+
   const { userId } = await auth();
   const image = await getImageById(id);
 
+  if (!image) {
+    return notFound();
+  }
   return (
     <>
       <Header title={image.title} />

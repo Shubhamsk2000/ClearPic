@@ -29,11 +29,10 @@ const Sidebar = () => {
                 return (
                   <li
                     key={link.route}
-                    className={`sidebar-nav_element group transition-all duration-200 ease-in-out ${
-                      isActive
+                    className={`sidebar-nav_element group transition-all duration-200 ease-in-out ${isActive
                         ? 'bg-purple-gradient text-white shadow-lg'
                         : 'text-dark-600 hover:bg-purple-100/40'
-                    }`}
+                      }`}
                   >
                     <Link className="sidebar-link" href={link.route}>
                       <Image
@@ -61,11 +60,10 @@ const Sidebar = () => {
                 return (
                   <li
                     key={link.route}
-                    className={`sidebar-nav_element group transition-all duration-200 ease-in-out ${
-                      isActive
+                    className={`sidebar-nav_element group transition-all duration-200 ease-in-out ${isActive
                         ? 'bg-purple-gradient text-white shadow-lg'
                         : 'text-dark-600 hover:bg-purple-100/40'
-                    }`}
+                      }`}
                   >
                     <Link className="sidebar-link" href={link.route}>
                       <Image
@@ -83,15 +81,20 @@ const Sidebar = () => {
 
               {/* User Button */}
               <li className="mt-4 px-4">
-                <UserButton afterSignOutUrl="/" showName />
+                <UserButton showName />
               </li>
             </ul>
           </SignedIn>
 
           <SignedOut>
-            <Button asChild className="button bg-purple-gradient bg-cover mt-8">
-              <Link href="/sign-in">Login</Link>
-            </Button>
+            <div>
+              <Button asChild className="button bg-purple-gradient bg-cover mt-8">
+                <Link href="/sign-up">Sign Up</Link>
+              </Button>
+              <Button asChild className="button bg-purple-gradient bg-cover mt-4">
+                <Link href="/sign-in">Login</Link>
+              </Button>
+            </div>
           </SignedOut>
         </nav>
       </div>

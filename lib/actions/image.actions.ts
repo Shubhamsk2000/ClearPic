@@ -6,7 +6,6 @@ import { connectToDatabase } from "../database/mongoose";
 import { handleError } from "../utils";
 import User from "../database/models/user.model";
 import Image from "../database/models/image.model";
-import { redirect } from "next/navigation";
 import { v2 as cloudinary } from 'cloudinary';
 const populateUser = (query: any) => (
     query.populate({
@@ -76,7 +75,7 @@ export async function getImageById(imageId: string) {
         const image = await populateUser(Image.findById(imageId));
 
         if (!image) {
-            throw new Error("Image not found");
+            return null;
         }
 
         return JSON.parse(JSON.stringify(image));
@@ -131,6 +130,32 @@ export async function getAllImages({ limit = 9,
             totalPages: Math.ceil(totalImages / limit),
             savedImage
         }
+    } catch (error) {
+        handleError(error);
+    }
+}
+
+export async function getUserImages({
+    limit=9,
+    page=1,
+    userId,
+}:{
+    limit?: number,
+    page?: number,
+    userId: string
+}){
+    try {
+        await connectToDatabase();
+        const skipAmount = (Number(page) - 1) * limit;
+
+        const image = await populateUser(Image.find({ author: userId})).sort({updatedAt: -1}).skip(skipAmount).limit(limit);
+
+        const totalImages = await Image.find({ author: userId}).countDocuments();
+
+        return {
+            data: JSON.parse(JSON.stringify(image)),
+            totalPages: Math.ceil(totalImages/ limit),
+        };
     } catch (error) {
         handleError(error);
     }
